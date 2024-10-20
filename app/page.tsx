@@ -1,112 +1,142 @@
-import Image from "next/image";
+'use client';
+
+import Message from '../components/molecules/message';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { MdOutlineBugReport } from 'react-icons/md';
+import IconButton from '../components/atoms/IconButton';
+
+const options = [
+  { id: 1, name: 'Option 1' },
+  { id: 2, name: 'Option 2' },
+  { id: 3, name: 'Option 3' },
+];
 
 export default function Home() {
+  const [selectedOption, setSelectedOption] = useState(options[0]);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main className="flex min-h-screen">
+      {/* Left Panel */}
+      <div className="w-1/2 flex flex-col border-r bg-gray-50">
+        {/* Header */}
+        <header className="p-4 border-b">
+          <div className="flex justify-between items-center">
+            <Select
+              onValueChange={(value) =>
+                setSelectedOption(options.find((opt) => opt.id.toString() === value) || options[0])
+              }
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select option" />
+              </SelectTrigger>
+              <SelectContent>
+                {options.map((option) => (
+                  <SelectItem key={option.id} value={option.id.toString()}>
+                    {option.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <IconButton className="h-9 px-4">
+              <MdOutlineBugReport size={24} />
+              <span className="mx-1">Interrupts</span>
+            </IconButton>
+          </div>
+        </header>
+
+        {/* Main Body */}
+        <div className="flex-grow p-4">
+          <div className="border p-4 h-full">
+            {/* Placeholder for Mermaid flowchart */}
+            <p>Mermaid Flowchart goes here</p>
+          </div>
         </div>
+
+        {/* Footer */}
+        <footer className="border-t p-4">
+          <div className="border rounded">
+            <div className="flex justify-between items-center p-2 bg-gray-100">
+              <h3>Input</h3>
+              <Button variant="ghost" size="sm">
+                ▼
+              </Button>
+            </div>
+            <div className="p-2">
+              <h4>Messages</h4>
+              <Button variant="default" size="sm" className="mt-2">
+                + Message
+              </Button>
+            </div>
+          </div>
+        </footer>
       </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      {/* Right Panel */}
+      <div className="w-1/2 flex flex-col">
+        {/* Header */}
+        <header className="p-4 border-b">
+          <div className="flex justify-between items-center">
+            <div className="flex items-start">
+              <span className="font-bold">Thread: </span>
+              <p className="mx-2">5a65d9df-4b0a-451b-8942-6db449a00cf8</p>
+            </div>
+            <Select defaultValue="8 seconds ago">
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select time" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="8 seconds ago">8 seconds ago</SelectItem>
+                {/* Add more time options as needed */}
+              </SelectContent>
+            </Select>
+            <div>
+              <Button variant="secondary" className="rounded-r-none">
+                Pretty
+              </Button>
+              <Button variant="secondary" className="rounded-l-none">
+                JSON
+              </Button>
+            </div>
+            <Button variant="default">+</Button>
+          </div>
+        </header>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+        {/* Main Body */}
+        <div className="flex-grow p-4">
+          <Message type="P">multiply 2 and 3</Message>
+          <Message type="A">
+            <table className="border-collapse border">
+              <tbody>
+                <tr>
+                  <td className="border p-2">T</td>
+                  <td className="border p-2">multiply</td>
+                </tr>
+              </tbody>
+            </table>
+          </Message>
+          <Message type="A">The result of multiplying 2 and 3 is 6</Message>
+        </div>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        {/* Footer */}
+        <footer className="border-t p-4">
+          <div className="border rounded">
+            <div className="flex justify-between items-center p-2 bg-gray-100">
+              <h3>OUTPUT</h3>
+              <Button variant="ghost" size="sm">
+                ▼
+              </Button>
+            </div>
+            {/* Content for OUTPUT accordion */}
+          </div>
+        </footer>
       </div>
     </main>
   );
